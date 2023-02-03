@@ -1,6 +1,6 @@
 # CSE 12 Winter 2023 PA4 - Iterators
 
-**Due date: Thursday, February 9 @ 11:59 PM PDT**
+**Due date: Thursday, February 16 @ 11:59 PM PDT**
 
 [There is an FAQ post on Piazza](TODO).  Please read that post first if you have any questions.
 
@@ -455,7 +455,7 @@ A full style guide can be found [here](https://github.com/CaoAssignments/style-g
 
 #### Turning in your code
 
-* Submit all of the following files to [Gradescope](https://www.gradescope.com/courses/481483/assignments) by Thursday, February 9, 2023, 11:59pm PST. 
+* Submit all of the following files to [Gradescope](https://www.gradescope.com/courses/481483/assignments) by Thursday, February 16, 2023, 11:59pm PST. 
     * `MyLinkedList.java`
     * `MyListIteratorCustomTester.java`
 
