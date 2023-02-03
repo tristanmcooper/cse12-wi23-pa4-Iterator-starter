@@ -26,7 +26,7 @@ You will find the following files:
 |    +-- MyListIteratorPublicTester.java
 ```
 
-**Copy over MyLinkedList.java from PA 3 to this directory**, because you will also edit this file.
+**Copy over MyLinkedList.java from PA3 to this directory**, because you will also edit this file.
 
 
 ### Part 1: JUnit Testing (20 points)
@@ -188,7 +188,7 @@ You should run the above commands in the starter directory. To run the custom te
 
 #### Overview:
 
-It is important to thoroughly test out your `MyLinkedList` implementation before working on this, as a buggy `MyLinkedList` implementation will give you a hard time testing your ListIterator. The resubmission assignment for PA 3 is currently open and all test cases are be visible. 
+It is important to thoroughly test out your `MyLinkedList` implementation before working on this, as a buggy `MyLinkedList` implementation will give you a hard time testing your ListIterator. The resubmission assignment for PA3 is currently open and all test cases are be visible. 
 
 You should also import `java.util.NoSuchElementException`, `java.util.ListIterator`, and `java.util.Iterator` apart from the imports you used in PA3.
 
