@@ -21,6 +21,7 @@ public class MyListIteratorPublicTester {
     private MyLinkedList listLen1, listLen2;
     private MyLinkedList.MyListIterator listLen1Iter, listLen2Iter;
 
+
     /**
      * Standard Test Fixture. A list with one entry and a list with two entries
      */
