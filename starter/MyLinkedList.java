@@ -2,7 +2,11 @@
  * Name: Tristan Cooper
  * Email: tmcooper@ucsd.edu
  * PID: A17085814
- * Sources used: The notes I took on Week 3 Slides and Section 3.1 from ZyBooks
+ * Sources used: 
+ *      - The notes I took on Week 3 Slides and Section 3.1 from ZyBooks
+ *      - Copied method descriptions from the PA write-up for my JavaDoc
+ *          method headers.
+ *      - Iterator Lecture Slides.
  * 
  * This file, MyLinkedList.java contains a generic class containing the 
  * attributes of a Double Linked List, as well as a nested class that contains
@@ -10,7 +14,6 @@
  */
 
 import java.util.AbstractList;
-
 
 // Imports for PA4 ListIterator:
 import java.util.NoSuchElementException;
@@ -32,13 +35,13 @@ import java.util.Iterator;
  * tail - A Node representing the sentinel tail of the list.
  */
 public class MyLinkedList<E> extends AbstractList<E> {
-
+    
+    /** Instance variables */
     int size; // Keep track of the number of nodes in the LL
     Node head; // Reference to the sentinel head of LL
     Node tail; // Reference to the sentinel tail of LL
 
-
-    // NESTED CLASS
+    // NESTED CLASS (Given in starter code)
     /**
      * A Node class that holds data and references to previous and next Nodes.
      */
@@ -167,7 +170,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @param index the specific index to add the node at.
      * @param data the data contained in the added node.
      */
-    //@Override
+    @Override
     public void add(int index, E data) {
         if (data == null) {
             throw new NullPointerException();
@@ -255,7 +258,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * Adds a node at the end of the list.
      * @return will always return true.
      */
-    //@Override
     public boolean add(E data) {
         if (data == null) {
             throw new NullPointerException();
@@ -451,13 +453,20 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
         return (Node) currNode.getNext();
     }
+/* END OF PA3 WORK */
 
 
-
-
-
-
-
+    /**
+     * This inner class implements the ListIterator interface to traverse a 
+     * doubly-linked list by moving a space at a time in either direction, 
+     * allowing for indexing, which isn't available to the MyLinkedList on its 
+     * own. It also includes methods to add, remove, and set elements.
+     * 
+     * Instance variables:
+     * left - the Node to the left of the ListIterator cursor
+     * right - the Node to the right of the ListIterator cursor
+     * idx - Int value of the index of the next node.
+     */
     protected class MyListIterator implements ListIterator<E> {
 
         // Class variables
@@ -473,7 +482,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
         // False after add() or remove().
         boolean canRemoveOrSet; 
 
-
         /**
          * Constructor for the MyListIterator class used to initialize the 
          * iterator.
@@ -481,10 +489,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
          */
         public MyListIterator() {
             left = head;
-            right = head.getNext();
+            right = head.getNext(); // Different than right = tail;
             idx = 0;
             forward = false;
-            canRemoveOrSet = false;
+            canRemoveOrSet = false; // Nothing to remove or set at the start.
         }
 
         /**
@@ -517,8 +525,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 canRemoveOrSet = true;
                 forward = true;
 
-                idx++;
+                idx++; // Moving the iterator forward by one node.
 
+                // This element was the next element at the time next() was 
+                // called.
                 return (E) left.getElement();
             }
             // If there isn't a next element, fallthrough to the exception.
@@ -569,6 +579,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * @return see above
          */
         public int nextIndex() {
+            if (right == tail) {
+                return size;
+            }
             return idx;
         }
 
@@ -579,6 +592,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * @return see above
          */
         public int previousIndex() {
+            if (left == head) {
+                return -1;
+            }
             return idx - 1;
         }
 
@@ -591,7 +607,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * one.
          * EXCEPTIONS: NullPointerException if element is null.
          */
-        //@Override
         public void add(E element) {
             if (element == null) {
                 throw new NullPointerException();
@@ -605,6 +620,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
             left = newNode;
             canRemoveOrSet = false;
             size++;
+            idx++;
         }
 
         /**
@@ -617,6 +633,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * @param element the new value for the node being set.
          */
         public void set(E element) {
+            // Invalid element
             if (element == null) {
                 throw new NullPointerException();
             }
@@ -639,33 +656,50 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * previous() call.
          * EXCEPTIONS: IllegalStateException, same conditions as set().
          */
-        //@Override
         public void remove() {
             if (!canRemoveOrSet) {
                 throw new IllegalStateException();
             }
 
-            // If moving forward, remove the node to the left
+            // If moving forward, remove the node to the left.
             if (forward) {
                 left.getPrev().setNext(right);
                 right.setPrev(left.getPrev());
                 left = left.getPrev();
+
+                // Only decrement index when moving forward.
+                idx--;
+                // Can't remove an element that has already been removed.
+                canRemoveOrSet = false;
+                size--;
             }
 
-            // If moving backward, remove node to the right
+            // If moving backward, remove node to the right.
             else if (!forward) {
                 right.getNext().setPrev(left);
                 left.setNext(right.getNext());
                 right = right.getNext();
+
+                // Can't remove an element that has already been removed.
+                canRemoveOrSet = false;
+                size--;
             }
         }
-
     }
 
+    /**
+     * Creates a new MyListIterator and returns it.
+     * @return a new MyListIterator object.
+     */
     @Override
     public ListIterator<E> listIterator() {
         return new MyListIterator();
     }
+    
+    /**
+     * Creates a new MyListIterator and returns it.
+     * @return a new MyListIterator object.
+     */
     @Override
     public Iterator<E> iterator() {
         return new MyListIterator();
