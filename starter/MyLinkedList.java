@@ -167,7 +167,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @param index the specific index to add the node at.
      * @param data the data contained in the added node.
      */
-    @Override
+    //@Override
     public void add(int index, E data) {
         if (data == null) {
             throw new NullPointerException();
@@ -255,6 +255,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * Adds a node at the end of the list.
      * @return will always return true.
      */
+    //@Override
     public boolean add(E data) {
         if (data == null) {
             throw new NullPointerException();
@@ -452,6 +453,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
     }
 
 
+
+
+
+
+
     protected class MyListIterator implements ListIterator<E> {
 
         // Class variables
@@ -585,13 +591,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * one.
          * EXCEPTIONS: NullPointerException if element is null.
          */
+        //@Override
         public void add(E element) {
             if (element == null) {
                 throw new NullPointerException();
             }
 
-            Node newNode = new Node(element, left, right);
-
+            Node newNode = new Node(element);
+            
             left.setNext(newNode);
             right.setPrev(newNode);
 
@@ -632,6 +639,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
          * previous() call.
          * EXCEPTIONS: IllegalStateException, same conditions as set().
          */
+        //@Override
         public void remove() {
             if (!canRemoveOrSet) {
                 throw new IllegalStateException();
