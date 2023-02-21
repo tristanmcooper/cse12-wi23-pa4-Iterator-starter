@@ -103,6 +103,26 @@ public class MyListIteratorCustomTester {
         listLen0Iterator.previous();
         listLen1Iterator.previous();
         listLen2Iterator.previous();
+
+        assertFalse("Can't remove at start", listLen0Iterator.canRemoveOrSet);
+        assertFalse("Can't remove at start", listLen1Iterator.canRemoveOrSet);
+        assertFalse("Can't remove at start", listLen2Iterator.canRemoveOrSet);
+
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen0Iterator.right, listLen0.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen0Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen1Iterator.right, listLen1.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen1Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.head.getNext().getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen2Iterator.idx, 2);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.tail.getPrev());
+
     }
 
     /**
@@ -155,6 +175,21 @@ public class MyListIteratorCustomTester {
         assertEquals("set() shouldn't change size", 0, listLen0.size());
         assertEquals("set() shouldn't change size", 1, listLen1.size());
         assertEquals("set() shouldn't change size", 2, listLen2.size());
+
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen0Iterator.right, listLen0.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen0Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen1Iterator.right, listLen1.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen1Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.head.getNext().getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen2Iterator.idx, 2);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.tail.getPrev());
     }
 
     /**
@@ -162,18 +197,43 @@ public class MyListIteratorCustomTester {
      */
     @Test (expected = NullPointerException.class)
     public void testSetInvalid() {
-        listLen1Iterator.next();
+        // Manually doing listLen1Iterator.next();
+        listLen1Iterator.left = listLen1.head.getNext();
+        listLen1Iterator.right = listLen1.head.getNext().getNext();
+        listLen1Iterator.idx = 1;
+        listLen1Iterator.canRemoveOrSet = true;
+        listLen1Iterator.forward = true;
+
         listLen1Iterator.set(null);
 
-        listLen2Iterator.next();
+        // Manually doing listLen2Iterator.next().next();
+        listLen2Iterator.left = listLen2.head.getNext().getNext();
+        listLen2Iterator.right = listLen2.head.getNext().getNext().getNext();
+        listLen2Iterator.idx = 2;
+        listLen2Iterator.canRemoveOrSet = true;
+        listLen2Iterator.forward = true;
+        
         listLen2Iterator.set(null);
-        listLen2Iterator.next();
-        listLen2Iterator.set(null);
-
+   
         // Test that size hasn't changed.
         assertEquals("set() shouldn't change size", 0, listLen0.size());
         assertEquals("set() shouldn't change size", 1, listLen1.size());
         assertEquals("set() shouldn't change size", 2, listLen2.size());
+
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen0Iterator.right, listLen0.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen0Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen1Iterator.right, listLen1.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen1Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.head.getNext().getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen2Iterator.idx, 2);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.tail.getPrev());
     }
 
     /**
@@ -189,6 +249,21 @@ public class MyListIteratorCustomTester {
         assertEquals("remove() shouldn't change size", 0, listLen0.size());
         assertEquals("remove() shouldn't change size", 1, listLen1.size());
         assertEquals("remove() shouldn't change size", 2, listLen2.size());
+
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen0Iterator.right, listLen0.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen0Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen1Iterator.right, listLen1.head.getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen1Iterator.idx, 0);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.head.getNext().getNext());
+        assertEquals("index shouldn't have changed with invalid call",
+                listLen2Iterator.idx, 2);
+        assertEquals("Iterator position shouldn't have changed with invalid call",
+                listLen2Iterator.right, listLen2.tail.getPrev());
     }
 
     /**
@@ -201,12 +276,21 @@ public class MyListIteratorCustomTester {
         assertFalse("call hasNext when there is NOT a next node", 
                 listLen0Iterator.hasNext());
 
-        listLen1Iterator.next();
+        // Manually doing listLen1Iterator.next();
+        listLen1Iterator.left = listLen1.head.getNext();
+        listLen1Iterator.right = listLen1.head.getNext().getNext();
+        listLen1Iterator.idx = 1;
+        listLen1Iterator.canRemoveOrSet = true;
+        listLen1Iterator.forward = true;
         assertFalse("call hasNext when there is NOT a next node", 
                 listLen1Iterator.hasNext());
 
-        listLen2Iterator.next();
-        listLen2Iterator.next();
+        // Manually doing listLen2Iterator.next().next();
+        listLen2Iterator.left = listLen2.head.getNext().getNext();
+        listLen2Iterator.right = listLen2.head.getNext().getNext().getNext();
+        listLen2Iterator.idx = 2;
+        listLen2Iterator.canRemoveOrSet = true;
+        listLen2Iterator.forward = true;
         assertFalse("call hasNext when there is NOT a next node", 
                 listLen2Iterator.hasNext());
     }
@@ -247,12 +331,21 @@ public class MyListIteratorCustomTester {
         assertEquals("call nextIndex when iterator is at end of list", 
                 0, listLen0Iterator.nextIndex());
 
-        listLen1Iterator.next();
+        // Manually doing listLen1Iterator.next();
+        listLen1Iterator.left = listLen1.head.getNext();
+        listLen1Iterator.right = listLen1.head.getNext().getNext();
+        listLen1Iterator.idx = 1;
+        listLen1Iterator.canRemoveOrSet = true;
+        listLen1Iterator.forward = true;
         assertEquals("call nextIndex when iterator is at end of list", 
                 1, listLen1Iterator.nextIndex());
 
-        listLen2Iterator.next();
-        listLen2Iterator.next();
+        // Manually doing listLen2Iterator.next().next();
+        listLen2Iterator.left = listLen2.head.getNext().getNext();
+        listLen2Iterator.right = listLen2.head.getNext().getNext().getNext();
+        listLen2Iterator.idx = 2;
+        listLen2Iterator.canRemoveOrSet = true;
+        listLen2Iterator.forward = true;
         assertEquals("call nextIndex when iterator is at end of list", 
                 2, listLen2Iterator.nextIndex());
     }
